@@ -1,0 +1,14 @@
+[remap]
+
+importer="quest_importer"
+type="Resource"
+uid="uid://bdjl3w4sxgdj1"
+path="res://.godot/imported/lamp_quest.quest-50f44799fe2fffda616e242e610b7671.tres"
+
+[deps]
+
+source_file="res://quests/lamp_quest.quest"
+dest_files=["res://.godot/imported/lamp_quest.quest-50f44799fe2fffda616e242e610b7671.tres"]
+
+[params]
+

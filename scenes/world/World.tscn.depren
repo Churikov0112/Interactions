@@ -1,0 +1,107 @@
+[gd_scene load_steps=14 format=3 uid="uid://6y7kct7s01iv"]
+
+[ext_resource type="PackedScene" uid="uid://bwg0rdamvdcs" path="res://scenes/lamp/Lamp.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://d0nxm0504niq3" path="res://assets/center_cursor.png" id="3"]
+[ext_resource type="PackedScene" uid="uid://jn5s6k5a65we" path="res://scenes/button/InteractiveButton.tscn" id="5"]
+[ext_resource type="Script" path="res://scenes/world/World.gd" id="6"]
+[ext_resource type="PackedScene" uid="uid://mqvknp88wbwy" path="res://scenes/player/player.tscn" id="6_l3w0a"]
+[ext_resource type="PackedScene" path="res://scenes/button/ButtonVariation.tscn" id="7"]
+[ext_resource type="Environment" path="res://env.tres" id="7_lkl2x"]
+[ext_resource type="PackedScene" uid="uid://b80fykignmm36" path="res://scenes/npc/npc.tscn" id="8_f834r"]
+[ext_resource type="Script" path="res://dialogs/quest_interface.gd" id="10_mhofn"]
+[ext_resource type="PackedScene" uid="uid://ttuk31utwga0" path="res://dialogs/quest_interface.tscn" id="11_7l1rn"]
+
+[sub_resource type="BoxShape3D" id="1"]
+size = Vector3(50, 0.1, 50)
+
+[sub_resource type="StandardMaterial3D" id="2"]
+albedo_color = Color(0.74902, 0.74902, 0.74902, 1)
+
+[sub_resource type="BoxMesh" id="3"]
+material = SubResource("2")
+size = Vector3(50, 0.1, 50)
+
+[node name="World" type="Node3D"]
+script = ExtResource("6")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("1")
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("3")
+
+[node name="Wall" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.267609, 0.922449, 0)
+use_collision = true
+size = Vector3(1.37803, 1.75782, 0.075)
+
+[node name="InteractiveButton" parent="." instance=ExtResource("5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.596491, 1.35254, -0.037866)
+
+[node name="Lamp" parent="." instance=ExtResource("1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.41323, 0, 0)
+
+[node name="ButtonVariation" parent="." instance=ExtResource("7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.100581, 1.353, -0.038)
+
+[node name="Lamp2" parent="." instance=ExtResource("1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.625358, 0, 0)
+
+[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.819152, 0.439385, 0.368688, 0, -0.642788, 0.766044, 0.573577, -0.627507, -0.526541, 0, 64.7139, 0)
+shadow_enabled = true
+shadow_bias = 0.05
+directional_shadow_mode = 1
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InteractionLabel" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -26.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Press E to interact with name"
+horizontal_alignment = 1
+
+[node name="CenterCursor" type="TextureRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3")
+
+[node name="player" parent="." instance=ExtResource("6_l3w0a")]
+transform = Transform3D(-0.928226, 0, -0.372016, 0, 1, 0, 0.372016, 0, -0.928226, 0, 0, -4.1429)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("7_lkl2x")
+
+[node name="npc1" parent="." instance=ExtResource("8_f834r")]
+transform = Transform3D(-0.0250428, 0, -0.999686, 0, 1, 0, 0.999686, 0, -0.0250428, 4.87536, 0, -4.24431)
+
+[node name="quest_interface" parent="." instance=ExtResource("11_7l1rn")]
+script = ExtResource("10_mhofn")
+
+[connection signal="on_state_changed" from="InteractiveButton" to="." method="_on_InteractiveButton_on_state_changed"]
+[connection signal="on_state_changed" from="ButtonVariation" to="." method="_on_ButtonVariation_on_state_changed"]
