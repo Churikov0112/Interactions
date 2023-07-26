@@ -14,4 +14,7 @@ func get_interaction_text():
 	return "поговорить с NPC1" # с маленькой буквы
 
 func interact():
-	QuestInterface.start_dialog("res://dialogs/npc1.dialogue", "start")
+	if QuestInterface.is_quest_complete("Ламповый квест"):
+		QuestInterface.start_dialog("res://dialogs/npc1.dialogue", "thanks")
+	else:
+		QuestInterface.start_dialog("res://dialogs/npc1.dialogue", "start")

@@ -23,10 +23,6 @@ DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 State="*res://state.gd"
 QuestManager="*res://addons/quest_manager/QuestManager.gd"
 
-[dialogue_manager]
-
-general/states=["State", "QuestManager"]
-
 [editor]
 
 version_control/plugin_name="GitPlugin"

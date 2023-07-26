@@ -1,20 +1,28 @@
 ~ start
 
-set is_player_talking = true
+set State.is_player_talking = true
 
-if lights_quest_status == "not_started":
+if State.get_active_quest_step_details() == "":
 	NPC1: Привет, я NPC1. Не мог бы ты мне немного помочь? Нужно включить эти фонари
 	- Без проблем
-		set lights_quest_status = "in_progress"
 		do get_node("quest_interface").start_quest("res://quests/lamp_quest.quest", "Ламповый квест")
 		NPC1: Спасибо большое, буду ждать
 	- Давай я лучше расскажу тебе, как сделать это самостоятельно
 		NPC1: Удочка, а не рыба? Так даже лучше. Проблема только в том, что меня зколдовали ии я не могу сдвинуться с места
-elif lights_quest_status == "in_progress":
+elif State.get_active_quest_step_details() == "Включите все фонари на этой локации":
 	NPC1: Ну как успехи? Уже все фонари выключил?
 	- Еще нет
-elif lights_quest_status == "done":
+elif State.get_active_quest_step_details() == "Вернитесь к NPC1":
 	NPC1: Большое тебе спасибо, теперь тут так светло и уютно!
+	do get_node("quest_interface").complete_quest("Ламповый квест")
+else:
+	NPC1: Провалил задание? Как ты умудрился?
 
-set is_player_talking = false
+set State.is_player_talking = false
+=> END
+
+~ thanks
+set State.is_player_talking = true
+NPC1: Большое спасибо, что помог мне! Я твой должник
+set State.is_player_talking = false
 => END
