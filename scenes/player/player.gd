@@ -8,6 +8,9 @@ const walking_speed = 2.5
 const running_speed = 5.0
 var SPEED = 2.5
 
+var max_vertical_rotation = deg_to_rad(75)
+var min_vertical_rotation = deg_to_rad(-75)
+
 var running = false
 var is_locked = false
 
@@ -23,9 +26,17 @@ func _ready():
 	
 func _input(event):
 	if event is InputEventMouseMotion:
+		var vertical_rotation = -event.relative.y * sense_vertical
+		var new_rotation = camera_mount.rotation.x + deg_to_rad(vertical_rotation)
+		new_rotation = clamp(new_rotation, min_vertical_rotation, max_vertical_rotation)
+		camera_mount.rotation.x = new_rotation
+
 		rotate_y(deg_to_rad(-event.relative.x*sense_horizontal))
 		visuals.rotate_y(deg_to_rad(event.relative.x*sense_horizontal))
-		camera_mount.rotate_x(deg_to_rad(-event.relative.y*sense_vertical))
+#	if event is InputEventMouseMotion:
+#		rotate_y(deg_to_rad(-event.relative.x*sense_horizontal))
+#		visuals.rotate_y(deg_to_rad(event.relative.x*sense_horizontal))
+#		camera_mount.rotate_x(deg_to_rad(-event.relative.y*sense_vertical))
 	
 
 func _physics_process(delta):
